@@ -437,7 +437,7 @@ Key pair: mykey
 Storage: 15 GiB gp3
 ```
 
-Connect through the bastion, then prepare the copied script:
+Connect through the bastion, then clone the repo and prepare the copied script:
 
 ```bash
 cp ~/vprofile-original/mariadb.sh ~/vprofile-deployment/mariadb-rhel9.sh
@@ -604,7 +604,7 @@ Key pair: mykey
 Storage: 10 GiB gp3
 ```
 
-Copy the original script:
+Connect through the bastion, then clone the repo and prepare the copied script:
 
 ```bash
 cp ~/vprofile-original/rabbitmq.sh ~/vprofile-deployment/rabbitmq-rhel9.sh
@@ -792,7 +792,7 @@ Key pair: mykey
 Storage: 10 GiB gp3
 ```
 
-Copy the original script:
+Connect through the bastion, then clone the repo and prepare the copied script:
 
 ```bash
 cp ~/vprofile-original/memcached.sh ~/vprofile-deployment/memcached-rhel9.sh
