@@ -1,4 +1,4 @@
-WS Migration on RHEL 9
+AWS Migration on RHEL 9
 
 This repository documents the migration of the **VProfile Java web application** from an on-premises environment to AWS.
 
@@ -373,14 +373,14 @@ Run PowerShell as Administrator:
 ```powershell
 Set-Service ssh-agent -StartupType Manual
 Start-Service ssh-agent
-ssh-add "C:\Users\Mohamed Ali\mykey.pem"
+ssh-add "PATH-TO-YOUR-KEY.pem"
 ssh-add -l
 ```
 
 Connect to the bastion:
 
 ```powershell
-ssh -A -i "C:\Users\Mohamed Ali\mykey.pem" ec2-user@BASTION_PUBLIC_IP
+ssh -A -i "PATH-TO-YOUR-KEY.pem" ec2-user@BASTION_PUBLIC_IP
 ```
 
 From the bastion, connect to a private backend:
@@ -1500,46 +1500,8 @@ An automatically assigned public IPv4 normally changes after an instance stop/st
 
 ---
 
-## 4. `git clone` reported `You must specify a repository to clone`
 
-### Cause
 
-The command contained a backslash followed by a blank line:
-
-```bash
-git clone -b Master \
-
-    "${SOURCE_REPOSITORY}"
-```
-
-### Solution
-
-Use one line:
-
-```bash
-git clone --branch Master --single-branch https://github.com/abdelrahmanonline4/sourcecodeseniorwr.git /opt/sourcecodeseniorwr
-```
-
-Or a valid multiline command with no blank line:
-
-```bash
-git clone --branch "${SOURCE_BRANCH}" --single-branch \
-    "${SOURCE_REPOSITORY}" "${SOURCE_DIRECTORY}"
-```
-
-Validate before execution:
-
-```bash
-bash -n script.sh
-```
-
-Debug exact commands:
-
-```bash
-sudo bash -x script.sh
-```
-
----
 
 ## 5. `mariadb` or `mysql` command was not found
 
