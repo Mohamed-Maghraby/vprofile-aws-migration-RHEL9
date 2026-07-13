@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <rabbit:annotation-driven/>
+
+    <!--
+      Configure the native RabbitMQ Java client with TLS.
+      The JVM default trust store validates the Amazon MQ certificate.
+    -->
+    <bean id="rabbitClientConnectionFactory"
+          class="org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean">
+
+        <property name="host" value="${rabbitmq.address}"/>
+        <property name="port" value="${rabbitmq.port}"/>
+        <property name="username" value="${rabbitmq.username}"/>
+        <property name="password" value="${rabbitmq.password}"/>
+
+        <property name="useSSL" value="true"/>
+        <property name="sslAlgorithm" value="TLSv1.2"/>
+        <property name="skipServerCertificateValidation" value="false"/>
+        <property name="enableHostnameVerification" value="true"/>
+        <property name="automaticRecoveryEnabled" value="false"/>
+    </bean>
+
+    <!-- Spring's caching connection factory wraps the secure native factory. -->
+    <rabbit:connection-factory
+            id="connectionFactory"
+            connection-factory="rabbitClientConnectionFactory"/>
+
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <rabbit:template
+            id="amqpTemplate"
+            connection-factory="connectionFactory"/>
+
+    <bean id="rabbitListenerContainerFactory"
+          class="org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory">
+
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="concurrentConsumers" value="3"/>
+        <property name="maxConcurrentConsumers" value="10"/>
+    </bean>
+
+</beans>
